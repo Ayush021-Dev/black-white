@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "name": "New JSNB",
+    "language_info": {
+      "name": "JavaScipt",
+      "version": "8.0"
+    }
+  },
+  "jsnbversion": "v0.1",
+  "cells": [
+    {
+      "code": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { margin: 0; }\n        canvas { display: block; }\n    </style>\n</head>\n<body>\n    <script type=\"module\" src=\"main.js\"></script>\n</body>\n</html>",
+      "status": "",
+      "output": "\n\n\n    <style>\n        body { margin: 0; }\n        canvas { display: block; }\n    </style>\n\n\n    <script type=\"module\" src=\"main.js\"></script>\n\n",
+      "type": "html"
+    },
+    {
+      "code": "// Import necessary modules dynamically\nwindow.THREE = await import('https://cdn.skypack.dev/three@0.132.2');\nconst { OrbitControls } = await import('https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js');\nconst SplineLoader = (await import('https://cdn.skypack.dev/@splinetool/loader')).default;\n\n// Set up the camera (Orthographic)\nconst camera = new THREE.OrthographicCamera(\n    window.innerWidth / -2, window.innerWidth / 2,\n    window.innerHeight / 2, window.innerHeight / -2,\n    -50000, 10000\n);\ncamera.position.set(0, 0, 0);\ncamera.quaternion.setFromEuler(new THREE.Euler(0, 0, 0));\n\n// Create the scene\nconst scene = new THREE.Scene();\n\n// Load the Spline scene\nconst loader = new SplineLoader();\nloader.load(\n    'https://prod.spline.design/DoZzYn3NOwsTPKev/scene.splinecode',\n    (splineScene) => {\n        scene.add(splineScene);\n    }\n);\n\n// Set up the renderer\nconst renderer = new THREE.WebGLRenderer({ antialias: true });\nrenderer.setSize(window.innerWidth, window.innerHeight);\nrenderer.shadowMap.enabled = true;\nrenderer.shadowMap.type = THREE.PCFShadowMap; // Use PCF for better shadow quality\nrenderer.setClearAlpha(1);\nscene.background = new THREE.Color('#1c1b1b'); // Set the background color\n\n// Append renderer to the document\ndocument.body.appendChild(renderer.domElement);\n\n// Add OrbitControls for interactive camera movement\nconst controls = new OrbitControls(camera, renderer.domElement);\ncontrols.enableDamping = true; // Enable damping for smoother controls\ncontrols.dampingFactor = 0.125; // Damping inertia\n\n// Handle window resize\nwindow.addEventListener('resize', onWindowResize);\nfunction onWindowResize() {\n    camera.left = window.innerWidth / -2;\n    camera.right = window.innerWidth / 2;\n    camera.top = window.innerHeight / 2;\n    camera.bottom = window.innerHeight / -2;\n    camera.updateProjectionMatrix();\n\n    renderer.setSize(window.innerWidth, window.innerHeight);\n}\n\n// Animation loop\nfunction animate(time) {\n    controls.update(); // Update control damping\n    renderer.render(scene, camera); // Render the scene from the camera's perspective\n    requestAnimationFrame(animate);\n}\n\n// Start the animation loop\nanimate();\n",
+      "status": "[-]",
+      "output": "<p class=\"error\">The requested module '/new/three@v0.170.0/dist=es2019,mode=imports?from=three' does not provide an export named 'AxesHelper'</p>",
+      "type": "code"
+    }
+  ],
+  "source": "https://github.com/gopi-suvanam/jsnb",
+  "run_on_load": false
+}
